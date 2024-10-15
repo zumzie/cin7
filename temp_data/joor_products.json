@@ -1,0 +1,32 @@
+{
+    "data": [
+        {
+            "id": "3295521",
+            "name": "NY Hat",
+            "external_id": "ny_hat_0001",
+            "product_identifier": "",
+            "description": "The New York Yankees baseball hat",
+            "order_minimum": 0,
+            "images": []
+        },
+        {
+            "id": "3295521",
+            "name": "Blue T-Shirt",
+            "external_id": "blu_tshirt_0001",
+            "product_identifier": "",
+            "description": "Blue Shirt testing product",
+            "order_minimum": 0,
+            "images": []
+        },
+        {
+            "id": "3295521",
+            "name": "Gray Hoodie",
+            "external_id": "gry_hd_0001",
+            "product_identifier": "",
+            "description": "Gray hoodie with pockets",
+            "order_minimum": 0,
+            "images": []
+        }
+    ],
+    "errors": []
+}

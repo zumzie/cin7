@@ -1,0 +1,338 @@
+[
+    {
+        "id": 1,
+        "status": "Public",
+        "createdDate": "2024-10-13T20:54:41.230074Z",
+        "modifiedDate": "2024-10-13T20:54:41.230074Z",
+        "styleCode": "ny_hat_0001",
+        "name": "NY Hat",
+        "description": "The New York Yankees baseball hat",
+        "tags": null,
+        "images": [
+        {
+            "link": "http://cin7.com/.../product-image-1.jpg"
+        },
+        {
+            "link": "http://cin7.com/.../product-image-2.jpg"
+        },
+        {
+            "link": "http://cin7.com/.../product-image-3.jpg"
+        }
+        ],
+        "pdfUpload": null,
+        "pdfDescription": null,
+        "supplierId": 101,
+        "brand": "Brand Name",
+        "category": "HATS",
+        "subCategory": null,
+        "categoryIdArray": null,
+        "channels": null,
+        "weight": 100.0,
+        "height": 0.0,
+        "width": 0.0,
+        "length": 0.0,
+        "volume": 0.0,
+        "stockControl": 5,
+        "orderType": "",
+        "productType": "",
+        "productSubtype": null,
+        "projectName": "",
+        "optionLabel1": "Color",
+        "optionLabel2": "Size",
+        "optionLabel3": "Printed",
+        "salesAccount": null,
+        "purchasesAccount": null,
+        "importCustomsDuty": null,
+        "customFields": {
+        "products_1000": "abc123",
+        "products_1001": 119,
+        "products_1002": false
+        },
+        "productOptions": [
+        {
+            "id": 1,
+            "createdDate": "2024-10-13T20:54:41.230074Z",
+            "modifiedDate": "2024-10-13T20:54:41.230074Z",
+            "status": "Primary",
+            "productId": 1,
+            "code": "ny_hat_0001",
+            "barcode": "1234567890123",
+            "productOptionCode": null,
+            "productOptionSizeCode": null,
+            "productOptionBarcode": null,
+            "productOptionSizeBarcode": null,
+            "supplierCode": "SUPPLIER-CODE",
+            "option1": "Black",
+            "option2": "OS",
+            "option3": "",
+            "optionWeight": 0.0,
+            "size": null,
+            "retailPrice": 89.9,
+            "wholesalePrice": 25.0,
+            "vipPrice": 79.0,
+            "specialPrice": 59.0,
+            "specialsStartDate": "2024-10-13T20:54:41.230074Z",
+            "specialDays": 7,
+            "stockAvailable": 4.0,
+            "stockOnHand": 2.0,
+            "uomOptions": [],
+            "image": {
+            "link": "http://cin7.com/.../product-option-image-red.jpg"
+            },
+            "priceColumns": {
+            "priceAUD": 20.0,
+            "priceGBP": 119.0,
+            "costNZD": 15.0
+            }
+        }
+        ]
+    },
+    {
+        "id": 2,
+        "status": "Public",
+        "createdDate": "2024-10-13T20:54:41.230074Z",
+        "modifiedDate": "2024-10-13T20:54:41.230074Z",
+        "styleCode": "blu_tshirt_0001",
+        "name": "Blue T-Shirt",
+        "description": "Blue Shirt testing product",
+        "tags": null,
+        "images": [
+        {
+            "link": "http://cin7.com/.../product-image-1.jpg"
+        },
+        {
+            "link": "http://cin7.com/.../product-image-2.jpg"
+        },
+        {
+            "link": "http://cin7.com/.../product-image-3.jpg"
+        }
+        ],
+        "pdfUpload": null,
+        "pdfDescription": null,
+        "supplierId": 101,
+        "brand": "Brand Name",
+        "category": "T-SHIRTS",
+        "subCategory": null,
+        "categoryIdArray": null,
+        "channels": null,
+        "weight": 100.0,
+        "height": 0.0,
+        "width": 0.0,
+        "length": 0.0,
+        "volume": 0.0,
+        "stockControl": 5,
+        "orderType": "",
+        "productType": "",
+        "productSubtype": null,
+        "projectName": "",
+        "optionLabel1": "Size",
+        "optionLabel2": "Color",
+        "optionLabel3": "Material",
+        "salesAccount": null,
+        "purchasesAccount": null,
+        "importCustomsDuty": null,
+        "customFields": {
+        "products_1000": "abc123",
+        "products_1001": 119,
+        "products_1002": false
+        },
+        "productOptions": [
+        {
+            "id": 1,
+            "createdDate": "2024-10-13T20:54:41.230074Z",
+            "modifiedDate": "2024-10-13T20:54:41.230074Z",
+            "status": "Primary",
+            "productId": 1,
+            "code": "SKU-BLU-T",
+            "barcode": "1234567890123",
+            "productOptionCode": null,
+            "productOptionSizeCode": null,
+            "productOptionBarcode": null,
+            "productOptionSizeBarcode": null,
+            "supplierCode": "SUPPLIER-CODE",
+            "option1": "Blue",
+            "option2": "XS",
+            "option3": "Yes",
+            "optionWeight": 0.0,
+            "size": null,
+            "retailPrice": 89.9,
+            "wholesalePrice": 25.0,
+            "vipPrice": 79.0,
+            "specialPrice": 59.0,
+            "specialsStartDate": "2024-10-13T20:54:41.230074Z",
+            "specialDays": 7,
+            "stockAvailable": 4.0,
+            "stockOnHand": 2.0,
+            "uomOptions": [],
+            "image": {
+            "link": "http://cin7.com/.../product-option-image-red.jpg"
+            },
+            "priceColumns": {
+            "priceAUD": 20.0,
+            "priceGBP": 119.0,
+            "costNZD": 15.0
+            }
+        },
+        {
+            "id": 2,
+            "createdDate": "2024-10-13T20:54:41.230074Z",
+            "modifiedDate": "2024-10-13T20:54:41.230074Z",
+            "status": "Active",
+            "productId": 1,
+            "code": "SKU-BLUE-T",
+            "barcode": "BARCODE-FOR-BLUE-T",
+            "productOptionCode": null,
+            "productOptionSizeCode": null,
+            "productOptionBarcode": null,
+            "productOptionSizeBarcode": null,
+            "supplierCode": "SUPPLIER-CODE",
+            "option1": "Blue",
+            "option2": "M",
+            "option3": "Plain",
+            "optionWeight": 0.0,
+            "size": null,
+            "retailPrice": 89.9,
+            "wholesalePrice": 25.0,
+            "vipPrice": 79.0,
+            "specialPrice": null,
+            "specialsStartDate": null,
+            "specialDays": null,
+            "stockAvailable": 10.0,
+            "stockOnHand": 5.0,
+            "uomOptions": [],
+            "image": {
+            "link": "http://cin7.com/.../product-option-image-blue.jpg"
+            },
+            "priceColumns": {
+            "priceAUD": 20.0,
+            "priceGBP": 119.0,
+            "costNZD": 15.0
+            }
+        }
+        ]
+    },
+    {
+        "id": 3,
+        "status": "Public",
+        "createdDate": "2024-10-13T20:54:41.230074Z",
+        "modifiedDate": "2024-10-13T20:54:41.230074Z",
+        "styleCode": "gry_hd_0001",
+        "name": "Gray Hoodie",
+        "description": "Gray hoodie with pockets",
+        "tags": null,
+        "images": [
+        {
+            "link": "http://cin7.com/.../product-image-1.jpg"
+        },
+        {
+            "link": "http://cin7.com/.../product-image-2.jpg"
+        },
+        {
+            "link": "http://cin7.com/.../product-image-3.jpg"
+        }
+        ],
+        "pdfUpload": null,
+        "pdfDescription": null,
+        "supplierId": 101,
+        "brand": "Brand Name",
+        "category": "HOODIE",
+        "subCategory": null,
+        "categoryIdArray": null,
+        "channels": null,
+        "weight": 100.0,
+        "height": 0.0,
+        "width": 0.0,
+        "length": 0.0,
+        "volume": 0.0,
+        "stockControl": 5,
+        "orderType": "",
+        "productType": "",
+        "productSubtype": null,
+        "projectName": "",
+        "optionLabel1": "Color",
+        "optionLabel2": "Material",
+        "optionLabel3": "Size",
+        "salesAccount": null,
+        "purchasesAccount": null,
+        "importCustomsDuty": null,
+        "customFields": {
+        "products_1000": "abc123",
+        "products_1001": 119,
+        "products_1002": false
+        },
+        "productOptions": [
+        {
+            "id": 1,
+            "createdDate": "2024-10-13T20:54:41.230074Z",
+            "modifiedDate": "2024-10-13T20:54:41.230074Z",
+            "status": "Primary",
+            "productId": 1,
+            "code": "SKU-RED-T",
+            "barcode": "1234567890123",
+            "productOptionCode": null,
+            "productOptionSizeCode": null,
+            "productOptionBarcode": null,
+            "productOptionSizeBarcode": null,
+            "supplierCode": "SUPPLIER-CODE",
+            "option1": "Red",
+            "option2": "XXL",
+            "option3": "Yes",
+            "optionWeight": 0.0,
+            "size": null,
+            "retailPrice": 89.9,
+            "wholesalePrice": 25.0,
+            "vipPrice": 79.0,
+            "specialPrice": 59.0,
+            "specialsStartDate": "2024-10-13T20:54:41.230074Z",
+            "specialDays": 7,
+            "stockAvailable": 4.0,
+            "stockOnHand": 2.0,
+            "uomOptions": [],
+            "image": {
+            "link": "http://cin7.com/.../product-option-image-red.jpg"
+            },
+            "priceColumns": {
+            "priceAUD": 20.0,
+            "priceGBP": 119.0,
+            "costNZD": 15.0
+            }
+        },
+        {
+            "id": 2,
+            "createdDate": "2024-10-13T20:54:41.230074Z",
+            "modifiedDate": "2024-10-13T20:54:41.230074Z",
+            "status": "Active",
+            "productId": 1,
+            "code": "SKU-BLUE-T",
+            "barcode": "BARCODE-FOR-BLUE-T",
+            "productOptionCode": null,
+            "productOptionSizeCode": null,
+            "productOptionBarcode": null,
+            "productOptionSizeBarcode": null,
+            "supplierCode": "SUPPLIER-CODE",
+            "option1": "Blue",
+            "option2": "M",
+            "option3": "Plain",
+            "optionWeight": 0.0,
+            "size": null,
+            "retailPrice": 89.9,
+            "wholesalePrice": 25.0,
+            "vipPrice": 79.0,
+            "specialPrice": null,
+            "specialsStartDate": null,
+            "specialDays": null,
+            "stockAvailable": 10.0,
+            "stockOnHand": 5.0,
+            "uomOptions": [],
+            "image": {
+            "link": "http://cin7.com/.../product-option-image-blue.jpg"
+            },
+            "priceColumns": {
+            "priceAUD": 20.0,
+            "priceGBP": 119.0,
+            "costNZD": 15.0
+            }
+        }
+        ]
+    }
+]
