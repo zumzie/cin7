@@ -18,7 +18,7 @@ def main():
 
     rawProdData = 'temp_data/cin_products.json'
     rawCustomerData = 'temp_data/cin_customers.json'
-    rawOrderData = 'temp_Data/cin_orders.json'
+    rawOrderData = 'temp_data/cin_orders.json'
 
     prod_data = readFile(rawProdData)
     customer_data = readFile(rawCustomerData)
@@ -29,12 +29,14 @@ def main():
     parser = Parser(prod_data, customer_data, order_data)
     parsed_products = parser.parseProducts()
 
-    writeFile(parsed_products, 'temp_data/parsedProducts.json')
+    writeFile(parsed_products, 'created_files/parsedProducts.json')
 
 
     # Map Data
     mapper = Mapper(parsed_products, customer_data, order_data)
     mapped_products = mapper.mapProducts()
+
+    writeFile(mapped_products, 'created_files/mappedProducts.json')
 
     # Aggregate Data
 
