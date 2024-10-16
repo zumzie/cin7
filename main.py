@@ -1,6 +1,15 @@
 import json
+import os
+
 from mapper import *
 from parser import *
+from utils.slack import *
+
+from pathlib import Path
+from dotenv import load_dotenv
+
+
+
 
 
 
@@ -16,6 +25,10 @@ def writeFile(incoming_data, file_name):
 
 def main():
 
+    env_path = Path('.') / '.env'
+    load_dotenv(dotenv_path=env_path)
+    slack_api_token = os.environ['slack_bot_api']
+
     rawProdData = 'temp_data/cin_products.json'
     rawCustomerData = 'temp_data/cin_customers.json'
     rawOrderData = 'temp_data/cin_orders.json'
@@ -29,16 +42,23 @@ def main():
     parser = Parser(prod_data, customer_data, order_data)
     parsed_products = parser.parseProducts()
 
-    writeFile(parsed_products, 'created_files/parsedProducts.json')
+    writeFile(parsed_products, 'temp_data/parsedProducts.json')
 
 
     # Map Data
     mapper = Mapper(parsed_products, customer_data, order_data)
     mapped_products = mapper.mapProducts()
+    mapped_skus = mapper.mapSkus()
 
     writeFile(mapped_products, 'created_files/mappedProducts.json')
+    writeFile(mapped_skus, 'created_files/mappedSkus.json')
 
+    slack_bot = SlackAPI(slack_api_token)
+
+    test = slack_bot.send_channel_message()
     # Aggregate Data
+
+
 
     # Route Data
 
