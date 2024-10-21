@@ -1,17 +1,17 @@
 import json
 
 class Mapper:
-    def __init__(self, prodData, orderData, customerData):
-        self.productData = prodData
-        self.customerData = customerData
-        self.orderData = orderData
+    def __init__(self, prod_data, customer_data, order_data):
+        self.product_data = prod_data
+        self.customer_data = customer_data
+        self.order_data = order_data
 
 
 
     def mapProducts(self):
         mapped_products = []
 
-        for product in self.productData:
+        for product in self.product_data:
             new_prod = {}
             new_prod['name'] = product['name']
             new_prod['description'] = product['description']
@@ -26,7 +26,7 @@ class Mapper:
         mapped_skus = []
         #Iterate through product data then variants
 
-        for product in self.productData:
+        for product in self.product_data:
             for sku in product['productOptions']:
                 new_sku = {}
                 new_sku['product_id'] = product['id']
@@ -48,7 +48,7 @@ class Mapper:
 
 
         '''
-        for product in self.productData:
+        for product in self.product_data:
             sku_group = {}
             sku_group[product['id']] = product['productOptions']
             mapped_skus.append(sku_group)
@@ -73,7 +73,7 @@ class Mapper:
 
     def mapImages(self):
         asset_data = []
-        for product in self.productData:
+        for product in self.product_data:
             #print(json.dumps(product,indent=4),'\n')
             count = 1
             for count, img in enumerate(product['images']):
@@ -97,7 +97,6 @@ class Mapper:
     def mapInventory(self, inv_data):
         inventory = {"inventory_items": []}
         for prod_inv in inv_data:
-            print(json.dumps(prod_inv,indent=4),'\n')
             inventory_data = {
                         "warehouse":  prod_inv["branchName"],
                         "inventory_date":  "IMMEDIATE",
@@ -111,3 +110,27 @@ class Mapper:
             inventory["inventory_items"].append(inventory_data)
 
         return [inventory]
+    
+    def mapOrders(self):
+
+
+        # Order to JOOR
+        orders = []
+        [print(self.order_data)]
+        for order in self.order_data:
+            order_obj = {
+                "customer_code": "CUSTOMER",
+                "price_type_id": "4",
+                "price_type_name": order["currencyCode"],
+                "status": "IN_PROGRESS",
+                "payment_method_code": order["paymentTerms"],
+                "tracking_number": order["trackingCode"],
+                "export_status": "SUCCESS",              
+                "po_number": order["id"],
+                "comments": order["internalComments"]
+            }
+            orders.append(order_obj)
+
+        # Order to Cin7
+
+        return orders

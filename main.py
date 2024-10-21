@@ -8,11 +8,6 @@ from utils.slack import *
 from pathlib import Path
 from dotenv import load_dotenv
 
-
-
-
-
-
 def readFile(raw_data):
     with open(raw_data) as data_file:
         data = json.load(data_file)
@@ -50,24 +45,28 @@ def main():
     writeFile(parsed_products, 'temp_data/parsedProducts.json')
 
 
-    # Map Data
+    # Map Product Data
     mapper = Mapper(parsed_products, customer_data, order_data)
     mapped_products = mapper.mapProducts()
     mapped_skus = mapper.mapSkus()
     mapped_images = mapper.mapImages()
     mapped_inventory = mapper.mapInventory(inven_data)
 
+    # Map Order Data
+    mapped_orders = mapper.mapOrders()
+
+    # Map Customer Data
+
     writeFile(mapped_products, 'created_files/mappedProducts.json')
     writeFile(mapped_skus, 'created_files/mappedSkus.json')
     writeFile(mapped_images, 'created_files/mappedImages.json')
     writeFile(mapped_inventory, 'created_files/mappedInventory.json')
+    writeFile(mapped_orders, 'created_files/mappedOrders.json')
 
     slack_bot = SlackAPI(slack_api_token)
 
     #test = slack_bot.send_channel_message()
     # Aggregate Data
-
-
 
     # Route Data
 
