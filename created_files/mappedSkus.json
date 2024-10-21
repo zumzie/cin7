@@ -53,11 +53,11 @@
     {
         "product_id": 3,
         "external_id": "gry_hd_0001",
-        "sku_identifier": "SKU-RED-T",
+        "sku_identifier": "GRAY-HD-XS",
         "trait_values": [
             {
                 "trait_name": "Size",
-                "value": "Red",
+                "value": "Gray",
                 "order_minimum": 0
             },
             {
@@ -70,16 +70,16 @@
     {
         "product_id": 3,
         "external_id": "gry_hd_0001",
-        "sku_identifier": "SKU-BLUE-T",
+        "sku_identifier": "GRAY-HD-MD",
         "trait_values": [
             {
                 "trait_name": "Size",
-                "value": "Blue",
+                "value": "Gray",
                 "order_minimum": 0
             },
             {
                 "trait_name": "Color",
-                "value": "XS",
+                "value": "MD",
                 "order_minimum": 0
             }
         ]

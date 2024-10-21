@@ -1,0 +1,72 @@
+[
+    {
+        "product": {
+            "id": 1
+        },
+        "asset": {
+            "type": "image",
+            "source_url": "http://cin7.com/.../product-image-1.jpg"
+        },
+        "display_order": 1
+    },
+    {
+        "product": {
+            "id": 1
+        },
+        "asset": {
+            "type": "image",
+            "source_url": "http://cin7.com/.../product-image-2.jpg"
+        },
+        "display_order": 2
+    },
+    {
+        "product": {
+            "id": 1
+        },
+        "asset": {
+            "type": "image",
+            "source_url": "http://cin7.com/.../product-image-3.jpg"
+        },
+        "display_order": 3
+    },
+    {
+        "product": {
+            "id": 2
+        },
+        "asset": {
+            "type": "image",
+            "source_url": "http://cin7.com/.../product-image-1.jpg"
+        },
+        "display_order": 1
+    },
+    {
+        "product": {
+            "id": 3
+        },
+        "asset": {
+            "type": "image",
+            "source_url": "http://cin7.com/.../product-image-1.jpg"
+        },
+        "display_order": 1
+    },
+    {
+        "product": {
+            "id": 3
+        },
+        "asset": {
+            "type": "image",
+            "source_url": "http://cin7.com/.../product-image-2.jpg"
+        },
+        "display_order": 2
+    },
+    {
+        "product": {
+            "id": 3
+        },
+        "asset": {
+            "type": "image",
+            "source_url": "http://cin7.com/.../product-image-3.jpg"
+        },
+        "display_order": 3
+    }
+]

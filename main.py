@@ -29,15 +29,20 @@ def main():
     load_dotenv(dotenv_path=env_path)
     slack_api_token = os.environ['slack_bot_api']
 
-    rawProdData = 'temp_data/cin_products.json'
-    rawCustomerData = 'temp_data/cin_customers.json'
-    rawOrderData = 'temp_data/cin_orders.json'
+    raw_product_data = 'temp_data/cin_products.json'
+    raw_customer_data = 'temp_data/cin_customers.json'
+    raw_order_data = 'temp_data/cin_orders.json'
+    inventory_data = 'temp_data/cin_inventory.json'
 
-    prod_data = readFile(rawProdData)
-    customer_data = readFile(rawCustomerData)
-    order_data = readFile(rawOrderData)
+    prod_data = readFile(raw_product_data)
+    customer_data = readFile(raw_customer_data)
+    order_data = readFile(raw_order_data)
+    inven_data = readFile(inventory_data)
 
     
+    # Gather Data
+
+    ## Create
     # Parse Data
     parser = Parser(prod_data, customer_data, order_data)
     parsed_products = parser.parseProducts()
@@ -49,18 +54,25 @@ def main():
     mapper = Mapper(parsed_products, customer_data, order_data)
     mapped_products = mapper.mapProducts()
     mapped_skus = mapper.mapSkus()
+    mapped_images = mapper.mapImages()
+    mapped_inventory = mapper.mapInventory(inven_data)
 
     writeFile(mapped_products, 'created_files/mappedProducts.json')
     writeFile(mapped_skus, 'created_files/mappedSkus.json')
+    writeFile(mapped_images, 'created_files/mappedImages.json')
+    writeFile(mapped_inventory, 'created_files/mappedInventory.json')
 
     slack_bot = SlackAPI(slack_api_token)
 
-    test = slack_bot.send_channel_message()
+    #test = slack_bot.send_channel_message()
     # Aggregate Data
 
 
 
     # Route Data
+
+
+    ## Update
 
 
 
