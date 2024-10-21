@@ -22,7 +22,7 @@ class SlackAPI:
         endpoint = self.base_endpoint + 'chat.postMessage'
         channel_message = {
             'channel': self.channel,
-            'text': ':cin: :: / Test Store @ _apisandbox.jooraccess.com_ => :alarm_clock: Store is currently syncing data. Please decrease your timescope'
+            'text': ':cin: :: New message yo'
         }
         api_response = SlackAPI.send_api_call(self, endpoint, channel_message)
         

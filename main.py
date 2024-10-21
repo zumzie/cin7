@@ -59,7 +59,6 @@ def main():
     mapped_cin_orders, mapped_joor_orders = mapper.mapOrders()
 
     # Map Customer Data
-
     writeFile(mapped_products, 'created_files/mappedProducts.json')
     writeFile(mapped_skus, 'created_files/mappedSkus.json')
     writeFile(mapped_images, 'created_files/mappedImages.json')
