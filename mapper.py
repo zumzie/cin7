@@ -1,10 +1,11 @@
 import json
 
 class Mapper:
-    def __init__(self, prod_data, customer_data, order_data):
+    def __init__(self, prod_data, customer_data, order_data, joor_order_data):
         self.product_data = prod_data
         self.customer_data = customer_data
         self.order_data = order_data
+        self.joor_order_data = joor_order_data
 
 
 
@@ -113,12 +114,12 @@ class Mapper:
     
     def mapOrders(self):
 
-
         # Order to JOOR
-        orders = []
-        [print(self.order_data)]
+        cin_orders = []
+        joor_orders = []
+        
         for order in self.order_data:
-            order_obj = {
+            cin_order_obj = {
                 "customer_code": "CUSTOMER",
                 "price_type_id": "4",
                 "price_type_name": order["currencyCode"],
@@ -129,8 +130,32 @@ class Mapper:
                 "po_number": order["id"],
                 "comments": order["internalComments"]
             }
-            orders.append(order_obj)
+            cin_orders.append(cin_order_obj)
+
+        for j_order in self.joor_order_data:
+            joor_order_obj = {
+                "reference": "custom-" + str(j_order["order_id"]),
+                "price_type_id": "4",
+                "cuurencyCode": j_order["order_currency"],
+                "export_status": "SUCCESS",              
+                "total": j_order["order_total"],
+                "internalComments": j_order["order_comments"],
+                "lineItems": []
+            }
+            print(j_order)
+            for l_item in j_order["line_items"]:
+                item =  {
+                    "productOptionId": l_item["item_style_id"],
+                    "code": l_item["item_style_identifier"],
+                    "name": l_item["item_name"],
+                    "qty": l_item["item_quantity"],
+                    "styleCode": l_item["item_number"],
+                    "barcode": l_item["item_upc"],
+                    "lineComments": l_item["item_color_comment"],
+                    "unitPrice": l_item["item_price"],
+                }
+                joor_order_obj["lineItems"].append(item)
+            joor_orders.append(joor_order_obj)
 
         # Order to Cin7
-
-        return orders
+        return cin_orders, joor_orders

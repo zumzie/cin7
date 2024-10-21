@@ -29,10 +29,13 @@ def main():
     raw_order_data = 'temp_data/cin_orders.json'
     inventory_data = 'temp_data/cin_inventory.json'
 
+    raw_j_order_data = 'temp_data/joor_orders.json'
+
     prod_data = readFile(raw_product_data)
     customer_data = readFile(raw_customer_data)
     order_data = readFile(raw_order_data)
     inven_data = readFile(inventory_data)
+    joor_order_data = readFile(raw_j_order_data)
 
     
     # Gather Data
@@ -46,14 +49,14 @@ def main():
 
 
     # Map Product Data
-    mapper = Mapper(parsed_products, customer_data, order_data)
+    mapper = Mapper(parsed_products, customer_data, order_data, joor_order_data)
     mapped_products = mapper.mapProducts()
     mapped_skus = mapper.mapSkus()
     mapped_images = mapper.mapImages()
     mapped_inventory = mapper.mapInventory(inven_data)
 
     # Map Order Data
-    mapped_orders = mapper.mapOrders()
+    mapped_cin_orders, mapped_joor_orders = mapper.mapOrders()
 
     # Map Customer Data
 
@@ -61,7 +64,8 @@ def main():
     writeFile(mapped_skus, 'created_files/mappedSkus.json')
     writeFile(mapped_images, 'created_files/mappedImages.json')
     writeFile(mapped_inventory, 'created_files/mappedInventory.json')
-    writeFile(mapped_orders, 'created_files/mappedOrders.json')
+    writeFile(mapped_cin_orders, 'created_files/mappedOrders.json')
+    writeFile(mapped_joor_orders, 'created_files/joorOrderData.json')
 
     slack_bot = SlackAPI(slack_api_token)
 

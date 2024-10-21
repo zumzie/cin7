@@ -1,0 +1,22 @@
+[
+    {
+        "reference": "custom-172728",
+        "price_type_id": "4",
+        "cuurencyCode": "USD",
+        "export_status": "SUCCESS",
+        "total": 3550,
+        "internalComments": "Hi",
+        "lineItems": [
+            {
+                "productOptionId": 147358,
+                "code": "ny_hat_0001",
+                "name": "NY Hat",
+                "qty": 5,
+                "styleCode": "ny_hat_0001",
+                "barcode": "001",
+                "lineComments": "This is a color comment for Rinse",
+                "unitPrice": 25.0
+            }
+        ]
+    }
+]
