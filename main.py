@@ -2,6 +2,7 @@ import json
 import os
 
 from mapper import *
+from joor import *
 from parser import *
 from utils.slack import *
 
@@ -47,20 +48,23 @@ def main():
 
     writeFile(parsed_products, 'temp_data/parsedProducts.json')
 
-
-    # Map Product Data
+    # Initialize Classes
     mapper = Mapper(parsed_products, customer_data, order_data, joor_order_data)
-    mapped_products = mapper.mapProducts()
-    mapped_skus = mapper.mapSkus()
-    mapped_images = mapper.mapImages()
-    mapped_inventory = mapper.mapInventory(inven_data)
+    product_mapper = MapProducts(parsed_products, customer_data, order_data, joor_order_data)
+    
+    # Map Product Data
+    mapped_products = product_mapper.mapProducts()
+    mapped_skus = product_mapper.mapSkus()
+    mapped_images = product_mapper.mapImages()
+    mapped_inventory = product_mapper.mapInventory(inven_data)
+
+    print(product_mapper)
 
     # Map Order Data
     mapped_cin_orders, mapped_joor_orders = mapper.mapOrders()
 
     # Map Customer Data
     mapped_customers = mapper.mapCustomers()
-
 
     # Write data (temp)
     writeFile(mapped_products, 'created_files/mappedProducts.json')
@@ -82,8 +86,24 @@ def main():
     '''
     Send data to specific API endpoint
     '''
+    creds = {
+        "client_id": "",
+        "client_secret": "",
+        "username": "",
+        "password": "",
+        "v2_endpoint": "",
+        "v4_endpoint": "",
+    }
+    #joor_api = JoorAPI(creds)
+    
     # POST Products
+    #posted_products = joor_api.post_products(mapped_products)
 
+    '''
+    add conditional statement to see if we have ids from skus then add them into the correct product
+    '''
+    #posted_skus = joor_api.post_skus(mapped_skus)
+    
     # POST Customers
 
     # POST Orders
