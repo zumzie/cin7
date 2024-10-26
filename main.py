@@ -59,20 +59,34 @@ def main():
     mapped_cin_orders, mapped_joor_orders = mapper.mapOrders()
 
     # Map Customer Data
+    mapped_customers = mapper.mapCustomers()
+
+
+    # Write data (temp)
     writeFile(mapped_products, 'created_files/mappedProducts.json')
     writeFile(mapped_skus, 'created_files/mappedSkus.json')
     writeFile(mapped_images, 'created_files/mappedImages.json')
     writeFile(mapped_inventory, 'created_files/mappedInventory.json')
     writeFile(mapped_cin_orders, 'created_files/mappedOrders.json')
     writeFile(mapped_joor_orders, 'created_files/joorOrderData.json')
+    writeFile(mapped_customers, 'created_files/mappedCustomerData.json')
 
     slack_bot = SlackAPI(slack_api_token)
 
     #test = slack_bot.send_channel_message()
     # Aggregate Data
+    
+
 
     # Route Data
+    '''
+    Send data to specific API endpoint
+    '''
+    # POST Products
 
+    # POST Customers
+
+    # POST Orders
 
     ## Update
 

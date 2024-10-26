@@ -1,9 +1,7 @@
 [
     {
         "reference": "custom-172728",
-        "price_type_id": "4",
         "cuurencyCode": "USD",
-        "export_status": "SUCCESS",
         "total": 3550,
         "internalComments": "Hi",
         "lineItems": [

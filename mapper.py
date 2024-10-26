@@ -112,12 +112,19 @@ class Mapper:
 
         return [inventory]
     
-    def mapOrders(self):
+    def mapCollections(self):
+        pass
 
+    def mapOrders(self):
         # Order to JOOR
         cin_orders = []
         joor_orders = []
         
+        # Orders to JOOR
+        '''
+        # Need to add a conditional statement so if function is called, check to see
+        # which data set needs to be mapped
+        '''
         for order in self.order_data:
             cin_order_obj = {
                 "customer_code": "CUSTOMER",
@@ -132,17 +139,15 @@ class Mapper:
             }
             cin_orders.append(cin_order_obj)
 
+        # Orders to Cin7
         for j_order in self.joor_order_data:
             joor_order_obj = {
                 "reference": "custom-" + str(j_order["order_id"]),
-                "price_type_id": "4",
                 "cuurencyCode": j_order["order_currency"],
-                "export_status": "SUCCESS",              
                 "total": j_order["order_total"],
                 "internalComments": j_order["order_comments"],
                 "lineItems": []
             }
-            print(j_order)
             for l_item in j_order["line_items"]:
                 item =  {
                     "productOptionId": l_item["item_style_id"],
@@ -159,3 +164,63 @@ class Mapper:
 
         # Order to Cin7
         return cin_orders, joor_orders
+    
+    # Mapping Customers to send to JOOR
+    def mapCustomers(self):
+        joor_customers = []
+
+        # Map Customers to JOOR
+        '''
+        # Need to add a conditional statement so if function is called, check to see
+        # which data set needs to be mapped
+        '''
+        for customer in self.customer_data:
+            customer_obj = {
+                "customer_code": customer["company"],
+                "customer_alias": customer["company"],
+                "customer_name": customer["firstName"]+ " " + customer["lastName"],
+                "customer_email": customer["email"],
+                "customer_contact_name": customer["firstName"],
+                "billing": [
+                    {
+                        "billing_addresses": [
+                            {
+                                "billing_code": "test",
+                                "billing_name": customer["firstName"]+ " " +customer["lastName"],
+                                "billing_phone": customer["phone"],
+                                "billing_address_1": customer["postalAddress1"],
+                                "billing_address_2": customer["postalAddress2"],
+                                "billing_city": customer["postalCity"],
+                                "billing_state": customer["postalState"],
+                                "billing_postal_code": customer["postCode"],
+                                "billing_country": customer["country"],
+                            }
+                        ],
+                    }
+                ],
+                "shipping": {
+                    "shipping_addresses": [
+                        {
+                            "shipping_code": "test",
+                            "shipping_phone": customer["phone"],
+                            "shipping_email": customer["email"],
+                            "shipping_address_1": customer["address1"],
+                            "shipping_address_2": customer["address2"],
+                            "shipping_city": customer["city"],
+                            "shipping_state": customer["state"],
+                            "shipping_postal_code": customer["postCode"],
+                            "shipping_country": customer["country"],
+                        }
+                    ],
+                },
+            }
+            customer_obj["price_types"] = {
+                "price_type_currency_code": customer["priceColumn"],
+                "price_type_label": customer["priceColumn"],
+                "price_type_retail_currency_code": "AUD",
+            }
+        joor_customers.append(customer_obj)
+
+        # Map Customers to Cin7
+
+        return [{"bulk_connections": {"connection": joor_customers}}]
