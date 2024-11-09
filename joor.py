@@ -2,12 +2,13 @@ import requests
 
 class JoorAPI:
     def __init__(self, creds):
-        default_endpoint = "https://apisandbox.jooraccess.com/v4"
+        self.base_endpoint = "https://apisandbox.jooraccess.com/"
         self.creds = creds
-        self.endpoint_v4 = "https://apisandbox.jooraccess.com/v4"
-        self.api_token = creds["api_token"]
+        self.endpoint_v4 = "https://apisandbox.jooraccess.com/"
 
-    def auth_token(self):
+        #self.api_token = creds["api_token"]
+
+    def authenticate(self):
         endpoint =  "https://atlas-sandbox.jooraccess.com/auth"
         auth_data = {
             "grant_type": "password",
@@ -16,12 +17,37 @@ class JoorAPI:
             "username": self.creds["client_secret"],
             "password": self.creds["password"]
         }
+        headers = {
+            "Content-Type": "application/json"
+        }
 
-    def send_data(self):
-        pass
+        # Send API call to get bearer token
+        response = requests.post(endpoint,auth_data)
 
-    def get_data(self):
-        pass
+        print(response)
+
+        match response.status_code:
+            case 200:
+                return response
+            case 401:
+                return "Invalid Credentials"
+            case _:
+                return None
+
+    def send_data(self, endpoint, payload):
+        url = self.base_endpoint + '/v4' + endpoint
+        requests.post(url, payload)
+
+    def get_data(self, endpoint, token):
+        url = self.base_endpoint + '/v4' + endpoint + '?account=43450'
+        headers = {
+            'Authorization': f'Bearer {token}',
+            'Content-Type': 'application/json',
+            "accept": "application/json"
+        }
+        
+        request = requests.get(url, headers=headers)
+        return request
 
     # Customer API Calls
     def get_customers(self):
@@ -40,15 +66,18 @@ class JoorAPI:
         JoorAPI.send_data()
 
 
-class JoorProducts(JoorAPI):
+class JoorProducts():
     def __init__(self, creds, _t):
-        super().__init__(self, creds)
+        self.creds = creds
         self._t = _t
+        self.api = JoorAPI(creds)
 
     # Product API Calls
     def get_products(self):
         products = '/products'
-        JoorAPI.get_data()
+        request = self.api.get_data(products, self._t)
+
+        return request
 
     def get_skus(self):
         products = '/skus'

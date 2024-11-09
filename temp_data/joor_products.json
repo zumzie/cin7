@@ -4,7 +4,7 @@
             "id": "3295521",
             "name": "NY Hat",
             "external_id": "ny_hat_0001",
-            "product_identifier": "",
+            "product_identifier": "1",
             "description": "The New York Yankees baseball hat",
             "order_minimum": 0,
             "images": []
@@ -22,7 +22,7 @@
             "id": "3295521",
             "name": "Gray Hoodie",
             "external_id": "gry_hd_0001",
-            "product_identifier": "",
+            "product_identifier": "3",
             "description": "Gray hoodie with pockets",
             "order_minimum": 0,
             "images": []
