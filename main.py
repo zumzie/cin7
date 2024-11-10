@@ -88,11 +88,9 @@ def main():
         "api_token": ""
     }
 
-    ## Figure this shit out sometime
+    ## Figure this shit out sometime (AUTHENTICATION FLOW)
     joor_auth = JoorAPI(creds)
     joor_api = JoorProducts(joor_auth, token['api_token'])
-
-    print(joor_auth.authenticate())
     
     ''''
     # Prod Flow
@@ -102,7 +100,6 @@ def main():
 
     if j_products_exist_flag is True:   
         joor_products = joor_api.get_products()
-        print(joor_products)
 
     products_to_create, products_to_update = compare_products(prod_data, joor_prod_data)
 
@@ -124,6 +121,7 @@ def main():
     # Map Product Data
     mapped_products = product_mapper.mapProducts()
     mapped_skus = product_mapper.mapSkus()
+    mapped_prices = product_mapper.mapPrices()
     mapped_images = product_mapper.mapImages()
     mapped_inventory = product_mapper.mapInventory(inven_data)
 
@@ -136,15 +134,17 @@ def main():
     # Write data (temp)
     writeFile(mapped_products, 'created_files/mappedProducts.json')
     writeFile(mapped_skus, 'created_files/mappedSkus.json')
+    writeFile(mapped_prices, 'created_files/mappedPrices.json')
     writeFile(mapped_images, 'created_files/mappedImages.json')
     writeFile(mapped_inventory, 'created_files/mappedInventory.json')
     writeFile(mapped_cin_orders, 'created_files/mappedOrders.json')
     writeFile(mapped_joor_orders, 'created_files/joorOrderData.json')
     writeFile(mapped_customers, 'created_files/mappedCustomerData.json')
 
-    slack_bot = SlackAPI(slack_api_token)
 
+    slack_bot = SlackAPI(slack_api_token)
     #test = slack_bot.send_channel_message()
+    
     # Aggregate Data
 
 
@@ -155,7 +155,6 @@ def main():
     posted_products = joor_api.post_products(mapped_products)
     temp_account_id = '12411'
     posted_message =  f'Products successfully posted for account {temp_account_id}'
-    slack_bot = SlackAPI(slack_api_token)
 
     # Products posted successfully message #
     #slack_bot.send_channel_message(posted_message)
@@ -169,22 +168,37 @@ def main():
 
     # POST SKUs
     skus_to_create = []
-    map_sku_identifier = {m_sku['sku_identifier'] for m_sku in mapped_skus}
-
     for created_prod in posted_response['data']:
-        c_product_id = str(created_prod['external_id'])
+        c_product_id = str(created_prod['product_identifier'])
         for sku in mapped_skus:
-            if c_product_id in map_sku_identifier:
-                # Product exists in Joor, so we update it
-                sku['id'] = created_prod['id']
-                products_to_update.append(skus_to_create)
-    #print(sku)
+            if c_product_id == str(sku['product_id']):
+                sku['product_id'] = created_prod['id']
+                skus_to_create.append(sku)
 
+    posted_skus = joor_api.post_skus(skus_to_create)
+    posted_message =  f'SKUs successfully posted for account {temp_account_id}'
+    #slack_bot.send_channel_message(posted_message)
 
-    '''
-    add conditional statement to see if we have ids from skus then add them into the correct product
-    '''
-    #posted_skus = joor_api.post_skus(mapped_skus)
+    # POST PRICES
+    skus_response_data = 'response_files/skus_posted_response.json'
+    skus_response = readFile(skus_response_data)
+
+    prices_to_create = []
+    for sku_response in skus_response['data']:
+        for sku_price in mapped_prices:
+            if sku_price['sku_identifier'] == sku_response['sku_identifier']:
+                sku_price['id'] = sku_response['id']
+
+                prices_to_create.append(sku_price)
+    for sku_price in prices_to_create:
+        del sku_price['sku_identifier']
+
+    # POST IMAGES
+    posted_images = joor_api.post_images(mapped_images)
+
+    print(mapped_images)
+    # POST INVENTORY
+    posted_inventory = joor_api.post_images(mapped_inventory)
     
     # POST Customers
 

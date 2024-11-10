@@ -1,0 +1,14 @@
+[
+    {
+        "sku_identifier": "SKU-BLU-XS",
+        "price_type_id": "",
+        "wholesale_value": "25.0",
+        "retail_price": "89.9"
+    },
+    {
+        "sku_identifier": "SKU-BLUE-M",
+        "price_type_id": "",
+        "wholesale_value": "25.0",
+        "retail_price": "89.9"
+    }
+]

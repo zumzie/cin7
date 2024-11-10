@@ -35,7 +35,7 @@ class JoorAPI:
                 return None
 
     def send_data(self, endpoint, payload, token):
-        url = self.base_endpoint + '/v4' + endpoint + '?account=43450'
+        url = self.base_endpoint + endpoint + '?account=43450'
         header = {
             'Authorization': f'Bearer {token}',
             'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ class JoorAPI:
         return requests.post(url, json=payload, headers=header)
 
     def get_data(self, endpoint, token):
-        url = self.base_endpoint + '/v4' + endpoint + '?account=43450'
+        url = self.base_endpoint + endpoint + '?account=43450'
         headers = {
             'Authorization': f'Bearer {token}',
             'Content-Type': 'application/json',
@@ -79,42 +79,42 @@ class JoorProducts():
 
     # Product API Calls
     def get_products(self):
-        products = '/products'
+        products = '/v4/products'
         request = self.api.get_data(products, self._t)
 
         return request
 
     def get_skus(self):
-        products = '/skus'
+        products = '/v4/skus'
         JoorAPI.send_data()
     
     def get_prices(self):
-        products = '/prices'
+        products = '/v4/prices'
         JoorAPI.get_data()
 
     def get_collections(self):
-        products = '/collections'
+        products = '/v4/collections'
         JoorAPI.get_data()
 
     def post_products(self, payload):
-        products_endpoint = '/products/bulk_create'
+        products_endpoint = '/v4/products/bulk_create'
         return self.api.send_data(products_endpoint, payload, self._t)
 
-    def post_skus(self):
-        products = '/skus/bulk_create'
-        JoorAPI.send_data()
-
+    def post_skus(self, payload):
+        skus_endpoint = '/v4/skus/bulk_create'
+        return self.api.send_data(skus_endpoint, payload, self._t)
+    
     def post_prices(self):
-        products = '/prices/bulk_create'
-        JoorAPI.get_data()
+        prices_endpoint = '/v4/prices/bulk_create'
+        self.api.send_data()
+    
+    def post_images(self, payload):
+        prices_endpoint = '/v4/assets/products'
+        self.api.send_data(prices_endpoint, payload, self._t)
 
-    def post_prices(self):
-        products = '/prices/bulk_create'
-        JoorAPI.get_data()
+    def post_inventory(self, payload):
+        inventory_endpoint = '/v2/bulk-inventory'
+        self.api.send_data(inventory_endpoint, payload, self._t)
 
-    def post_images(self):
-        JoorAPI.send_data()
 
-    def post_inventory(self):
-        JoorAPI.send_data()
 

@@ -1,5 +1,9 @@
 import json
 
+
+
+
+## CLEAN UP MAPPER, SHOULD JUST BE INITIALIZING OF DATA
 class Mapper():
     def __init__(self, prod_data, customer_data, order_data, joor_order_data):
         self.product_data = prod_data
@@ -224,6 +228,8 @@ class Mapper():
         return [{"bulk_connections": {"connection": joor_customers}}]
 
 
+
+## ADD IN REST OF PRODUCT MAPPER
 class MapProducts(Mapper):
     def __init__(self, prod_data, customer_data, order_data, joor_order_data):
         super().__init__(prod_data, customer_data, order_data, joor_order_data)
@@ -238,17 +244,15 @@ class MapProducts(Mapper):
             new_prod = {}
             new_prod['name'] = product['name']
             new_prod['description'] = product['description']
-            new_prod['id'] = str(product['id'])
-            new_prod['product_identifier'] = product['styleCode']
+            new_prod['product_identifier'] = str(product['id'])
+            new_prod['external_id'] = product['styleCode']
             mapped_products.append(new_prod)
-
         return mapped_products
     
     def mapSkus(self):
-
         mapped_skus = []
-        #Iterate through product data then variants
 
+        #Iterate through product data then variants
         for product in self.product_data:
             for sku in product['productOptions']:
                 new_sku = {}
@@ -268,28 +272,25 @@ class MapProducts(Mapper):
                     }
                 ]
                 mapped_skus.append(new_sku)
-
-        '''
-        for product in self.product_data:
-            sku_group = {}
-            sku_group[product['id']] = product['productOptions']
-            mapped_skus.append(sku_group)
-        '''
-            
-            #for skus in product['productOptions']:
-                #sku_group[product['id']] = []
-                #sku_group.append(skus)
-                
-                #print(json.dumps(skus, indent=4),'\n')
-        
-            #new_sku = {}
-            #new_sku['product_id'] = sku['product_id']
-            #new_sku['external_id'] = sku['external_id']
-            #new_sku['sku_identifier'] = sku['sku_identifier']
-            #mapped_skus.append(new_sku)
-            #print(json.dumps(sku_group, indent=4),'\n')
         
         return mapped_skus
+    
+    def mapPrices(self):
+        mapped_prices = []
+
+        #Iterate through product data then variants for prices
+        for product in self.product_data:
+            for sku in product['productOptions']:
+                new_sku_price = {}
+                new_sku_price['sku_identifier'] = sku['code']
+                new_sku_price['price_type_id'] = ''
+                new_sku_price['wholesale_value'] = str(sku['wholesalePrice'])
+                new_sku_price['retail_price'] = str(sku['retailPrice'])
+                mapped_prices.append(new_sku_price)
+        
+        return mapped_prices
+
+
     
     def mapImages(self):
         asset_data = []
