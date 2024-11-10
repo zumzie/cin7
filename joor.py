@@ -34,9 +34,14 @@ class JoorAPI:
             case _:
                 return None
 
-    def send_data(self, endpoint, payload):
-        url = self.base_endpoint + '/v4' + endpoint
-        requests.post(url, payload)
+    def send_data(self, endpoint, payload, token):
+        url = self.base_endpoint + '/v4' + endpoint + '?account=43450'
+        header = {
+            'Authorization': f'Bearer {token}',
+            'Content-Type': 'application/json',
+            "accept": "application/json"
+        }
+        return requests.post(url, json=payload, headers=header)
 
     def get_data(self, endpoint, token):
         url = self.base_endpoint + '/v4' + endpoint + '?account=43450'
@@ -91,9 +96,9 @@ class JoorProducts():
         products = '/collections'
         JoorAPI.get_data()
 
-    def post_products(self):
-        products = '/products/bulk_create'
-        JoorAPI.send_data()
+    def post_products(self, payload):
+        products_endpoint = '/products/bulk_create'
+        return self.api.send_data(products_endpoint, payload, self._t)
 
     def post_skus(self):
         products = '/skus/bulk_create'

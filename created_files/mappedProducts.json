@@ -1,20 +1,8 @@
 [
     {
-        "name": "NY Hat",
-        "description": "The New York Yankees baseball hat",
-        "id": "1",
-        "product_identifier": "ny_hat_0001"
-    },
-    {
         "name": "Blue T-Shirt",
         "description": "Blue Shirt testing product",
         "id": "2",
         "product_identifier": "blu_tshirt_0001"
-    },
-    {
-        "name": "Gray Hoodie",
-        "description": "Gray hoodie with pockets",
-        "id": "3",
-        "product_identifier": "gry_hd_0001"
     }
 ]

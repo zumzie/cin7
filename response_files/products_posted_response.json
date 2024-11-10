@@ -1,0 +1,13 @@
+{
+    "data": [
+        {
+            "id": "3295521",
+            "name": "Blue T-Shirt",
+            "external_id": "blu_tshirt_0001",
+            "product_identifier": "",
+            "description": "Blue Shirt testing product",
+            "order_minimum": 0,
+            "images": []
+        }
+    ]
+}

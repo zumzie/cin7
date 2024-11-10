@@ -18,11 +18,11 @@ class SlackAPI:
         return request_response
 
     # Send Message
-    def send_channel_message(self):
+    def send_channel_message(self, message):
         endpoint = self.base_endpoint + 'chat.postMessage'
         channel_message = {
             'channel': self.channel,
-            'text': ':cin: :: New message yo'
+            'text': f':cin: :: {message}'
         }
         api_response = SlackAPI.send_api_call(self, endpoint, channel_message)
         

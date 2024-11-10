@@ -104,24 +104,22 @@ def main():
         joor_products = joor_api.get_products()
         print(joor_products)
 
+    products_to_create, products_to_update = compare_products(prod_data, joor_prod_data)
+
+
     ## Compare JOOR products to Shopify, remove products that
     ## don't need to be updated from JOOR, grab IDs
 
     ## Create
     # Parse Data
-    parser = Parser(prod_data, customer_data, order_data)
+    parser = Parser(products_to_create, customer_data, order_data)
+    created_parsed_products = parser.parseProducts()
 
-    parsed_products = parser.parseProducts()
-
-    writeFile(parsed_products, 'temp_data/parsedProducts.json')
-    products_to_create, products_to_update = compare_products(prod_data, joor_prod_data)
-
-    print(json.dumps(products_to_create, indent=4), '\n')
-    print(json.dumps(products_to_update, indent=4), '\n')
+    writeFile(created_parsed_products, 'temp_data/parsedProducts.json')
 
     # Initialize Classes
-    mapper = Mapper(parsed_products, customer_data, order_data, joor_order_data)
-    product_mapper = MapProducts(parsed_products, customer_data, order_data, joor_order_data)
+    mapper = Mapper(created_parsed_products, customer_data, order_data, joor_order_data)
+    product_mapper = MapProducts(created_parsed_products, customer_data, order_data, joor_order_data)
     
     # Map Product Data
     mapped_products = product_mapper.mapProducts()
@@ -154,7 +152,34 @@ def main():
 
     
     # POST Products
-    #posted_products = joor_api.post_products(mapped_products)
+    posted_products = joor_api.post_products(mapped_products)
+    temp_account_id = '12411'
+    posted_message =  f'Products successfully posted for account {temp_account_id}'
+    slack_bot = SlackAPI(slack_api_token)
+
+    # Products posted successfully message #
+    #slack_bot.send_channel_message(posted_message)
+
+
+    '''
+    # Posted Response data (TEMPORARY)
+    '''
+    posted_response_data = 'response_files/products_posted_response.json'
+    posted_response = readFile(posted_response_data)
+
+    # POST SKUs
+    skus_to_create = []
+    map_sku_identifier = {m_sku['sku_identifier'] for m_sku in mapped_skus}
+
+    for created_prod in posted_response['data']:
+        c_product_id = str(created_prod['external_id'])
+        for sku in mapped_skus:
+            if c_product_id in map_sku_identifier:
+                # Product exists in Joor, so we update it
+                sku['id'] = created_prod['id']
+                products_to_update.append(skus_to_create)
+    #print(sku)
+
 
     '''
     add conditional statement to see if we have ids from skus then add them into the correct product
