@@ -23,7 +23,6 @@ class JoorAPI:
 
         # Send API call to get bearer token
         response = requests.post(endpoint,auth_data)
-
         print(response)
 
         match response.status_code:
@@ -34,14 +33,19 @@ class JoorAPI:
             case _:
                 return None
 
-    def send_data(self, endpoint, payload, token):
-        url = self.base_endpoint + endpoint + '?account=43450'
+    def send_data(self, endpoint, payload, token, flag):
         header = {
             'Authorization': f'Bearer {token}',
             'Content-Type': 'application/json',
             "accept": "application/json"
         }
-        return requests.post(url, json=payload, headers=header)
+        if flag == 'create':
+            url = self.base_endpoint + endpoint + '/bulk_create' + '?account=43450'
+            return requests.post(url, json=payload, headers=header)
+        elif flag == 'update':
+            url = self.base_endpoint + endpoint + '/bulk_update' '?account=43450'
+            return requests.post(url, json=payload, headers=header)
+
 
     def get_data(self, endpoint, token):
         url = self.base_endpoint + endpoint + '?account=43450'
@@ -96,9 +100,13 @@ class JoorProducts():
         products = '/v4/collections'
         JoorAPI.get_data()
 
-    def post_products(self, payload):
-        products_endpoint = '/v4/products/bulk_create'
-        return self.api.send_data(products_endpoint, payload, self._t)
+    def get_seasons(self):
+        season_endpoint = '/v4/seasons'
+        JoorAPI.get_data()
+
+    def post_products(self, payload, flag):
+        products_endpoint = '/v4/products'
+        return self.api.send_data(products_endpoint, payload, self._t, flag)
 
     def post_skus(self, payload):
         skus_endpoint = '/v4/skus/bulk_create'
@@ -116,5 +124,7 @@ class JoorProducts():
         inventory_endpoint = '/v2/bulk-inventory'
         self.api.send_data(inventory_endpoint, payload, self._t)
 
-
-
+    def post_collections(self, payload, flag):
+        collections_endpoint = '/v4/collections'
+        self.api.send_data(collections_endpoint, payload, self._t, flag)
+        pass

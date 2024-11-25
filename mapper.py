@@ -331,3 +331,37 @@ class MapProducts(Mapper):
             inventory["inventory_items"].append(inventory_data)
 
         return [inventory]
+    
+    def mapCollections(self):
+        temp_to_create =  []
+        temp_to_update = []
+
+        collections_to_create =  []
+        collections_to_update = []
+
+        collections = {c_product['projectName'] for c_product in self.product_data}
+
+        for c_product in self.product_data:
+            collection_name = c_product['projectName']
+            if collection_name in collections:
+                c_coll_obj = {}
+                # Product exists in Joor, so we update it
+                temp_to_update.append(c_product)
+            else:
+                u_coll_obj = {}
+                
+                # Product does not exist in Joor, so we create it
+                temp_to_create.append(c_product)
+
+        print(json.dumps(collections_to_create,indent=4), '\n',json.dumps(collections_to_update,indent=4),'\n')
+        
+
+        for c_product in collections_to_create:
+            collections_to_create
+            pass
+
+        for c_product in collections_to_update:
+            
+            pass
+        
+        return collections_to_create, collections_to_update

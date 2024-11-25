@@ -1,0 +1,21 @@
+{
+    "data": [
+      {
+        "id": "4",
+        "name": "Summmer",
+        "year": 2022,
+        "external_id": "2342411"
+      }
+    ],
+    "errors": [
+      {
+        "status": "VALIDATION_ERROR",
+        "message": "Invalid Year",
+        "details": {
+          "code": "S3",
+          "name": "Summer",
+          "year": 2021
+        }
+      }
+    ]
+  }

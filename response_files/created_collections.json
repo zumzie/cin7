@@ -1,0 +1,52 @@
+{
+    "data": [
+      {
+        "id": "1",
+        "name": "Collection One",
+        "external_id": "31431",
+        "delivery": {
+          "start_ship_date": "2021-121-31",
+          "complete_ship_date": "2022-1-12",
+          "cancel_date": "2022-2-1",
+          "minimum_shipping_window": 5
+        },
+        "season": {
+          "id": "4",
+          "name": "Summmer",
+          "year": 2022,
+          "external_id": "2342411"
+        },
+        "visibility": "OWNER",
+        "archived": false,
+        "is_custom": true,
+        "made_to_order": true,
+        "items": [
+          {
+            "product_id": "25",
+            "order_number": 2,
+            "skus": [
+              {
+                "id": "Eds##2dfg",
+                "delivery": {
+                  "start_ship_date": "2021-12-31",
+                  "complete_ship_date": "2022-1-12"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "errors": [
+      {
+        "status": "VALIDATION_ERROR",
+        "message": "Shipping date must be before completed date",
+        "details": {
+          "name": "Collection One",
+          "externalId": "31431",
+          "seasonId": "4",
+          "ignores_inventory": false
+        }
+      }
+    ]
+  }

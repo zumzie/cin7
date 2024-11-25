@@ -1,0 +1,17 @@
+{
+    "data": [
+      {
+        "id": "4",
+        "name": "Summmer",
+        "year": 2022,
+        "external_id": "2342411"
+      }
+    ],
+    "errors": [
+      {
+        "status": "NOT_FOUND",
+        "message": "Value not found",
+        "details": {}
+      }
+    ]
+  }
