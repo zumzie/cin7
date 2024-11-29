@@ -50,8 +50,8 @@ def main():
 
     j_products_exist_flag = False
     c_products_exist_flag = False
-    update_products = False
-    create_products = False
+    update_flag = False
+    create_flag = False
 
     raw_product_data = 'temp_data/cin_products.json'
     raw_customer_data = 'temp_data/cin_customers.json'
@@ -105,138 +105,155 @@ def main():
     '''
 
     products_to_create, products_to_update = compare_products(prod_data, joor_prod_data)
-
-
-    ## Compare JOOR products to Shopify, remove products that
-    ## don't need to be updated from JOOR, grab IDs
-
-    ## Create
-    # Parse Data
     parser = Parser(products_to_create, customer_data, order_data)
     created_parsed_products = parser.parseProducts()
+
+    parser = Parser(products_to_update, customer_data, order_data)
+    updated_parsed_products = parser.parseProducts()
 
     writeFile(created_parsed_products, 'temp_data/parsedProducts.json')
 
     # Initialize Classes
-    mapper = Mapper(created_parsed_products, customer_data, order_data, joor_order_data)
-    product_mapper = MapProducts(created_parsed_products, customer_data, order_data, joor_order_data)
+    mapper = Mapper(prod_data, customer_data, order_data, joor_order_data)
+    product_mapper = MapProducts(prod_data, created_parsed_products, updated_parsed_products)
+
+    ## Compare JOOR products to Shopify, remove products that
+    ## don't need to be updated from JOOR, grab IDs
+    if created_parsed_products:
+        create_flag = 'CREATE'
+        try:
+            ## Create
+            # Parse Data
+            '''
+            # REDO so just passing one set of data
+            '''
+
+            # Map Product Data
+            mapped_products = product_mapper.mapProducts(create_flag)
+            mapped_skus = product_mapper.mapSkus(created_parsed_products, [], create_flag)
+            mapped_prices = product_mapper.mapPrices()
+            mapped_images = product_mapper.mapImages()
+            mapped_inventory = product_mapper.mapInventory(inven_data)
+
+            # Map Collection Data
+            #temp mapper function
+            #p_mapper = MapProducts(prod_data)
+            #mapped_collections_to_u, mapped_collections_to_c = p_mapper.mapCollections()
 
 
-    # Map Product Data
-    mapped_products = product_mapper.mapProducts()
-    mapped_skus = product_mapper.mapSkus()
-    mapped_prices = product_mapper.mapPrices()
-    mapped_images = product_mapper.mapImages()
-    mapped_inventory = product_mapper.mapInventory(inven_data)
 
-    # Map Collection Data
-    #temp mapper function
-    p_mapper = MapProducts(prod_data, customer_data, order_data, joor_order_data)
-    mapped_collections_to_u, mapped_collections_to_c = p_mapper.mapCollections()
+            # Map Order Data
+            #mapped_cin_orders, mapped_joor_orders = mapper.mapOrders()
 
+            # Map Customer Data
+            #mapped_customers = mapper.mapCustomers()
 
+            # Write data (temp)
+            writeFile(mapped_products, 'created_files/mappedProducts.json')
+            writeFile(mapped_skus, 'created_files/mappedSkus.json')
+            writeFile(mapped_prices, 'created_files/mappedPrices.json')
+            writeFile(mapped_images, 'created_files/mappedImages.json')
+            writeFile(mapped_inventory, 'created_files/mappedInventory.json')
+            #writeFile(mapped_cin_orders, 'created_files/mappedOrders.json')
+            #writeFile(mapped_joor_orders, 'created_files/joorOrderData.json')
+            #writeFile(mapped_customers, 'created_files/mappedCustomerData.json')
 
-    # Map Order Data
-    mapped_cin_orders, mapped_joor_orders = mapper.mapOrders()
-
-    # Map Customer Data
-    mapped_customers = mapper.mapCustomers()
-
-    # Write data (temp)
-    writeFile(mapped_products, 'created_files/mappedProducts.json')
-    writeFile(mapped_skus, 'created_files/mappedSkus.json')
-    writeFile(mapped_prices, 'created_files/mappedPrices.json')
-    writeFile(mapped_images, 'created_files/mappedImages.json')
-    writeFile(mapped_inventory, 'created_files/mappedInventory.json')
-    writeFile(mapped_cin_orders, 'created_files/mappedOrders.json')
-    writeFile(mapped_joor_orders, 'created_files/joorOrderData.json')
-    writeFile(mapped_customers, 'created_files/mappedCustomerData.json')
-
-    slack_bot = SlackAPI(slack_api_token)
-    #test = slack_bot.send_channel_message()
-    
-    # Aggregate Data
+            slack_bot = SlackAPI(slack_api_token)
+            #test = slack_bot.send_channel_message()
+            
+            # Aggregate Data
 
 
-    # Route Data
+            # Route Data
 
-    
-    # POST Products
-    #posted_products = joor_api.post_products(mapped_products)
-    temp_account_id = '12411'
-    posted_message =  f'Products successfully posted for account {temp_account_id}'
+            
+            # POST Products
+            #posted_products = joor_api.post_products(mapped_products)
+            temp_account_id = '12411'
+            posted_message =  f'Products successfully posted for account {temp_account_id}'
 
-    # Products posted successfully message #
-    #slack_bot.send_channel_message(posted_message)
+            # Products posted successfully message #
+            #slack_bot.send_channel_message(posted_message)
 
 
-    '''
-    # Posted Response data (TEMPORARY)
-    '''
-    posted_response_data = 'response_files/products_posted_response.json'
-    posted_response = readFile(posted_response_data)
+            '''
+            # Posted Response data (TEMPORARY)
+            '''
+            posted_response_data = 'response_files/products_posted_response.json'
+            posted_response = readFile(posted_response_data)
 
-    # POST SKUs
-    skus_to_create = []
-    for created_prod in posted_response['data']:
-        c_product_id = str(created_prod['product_identifier'])
-        for sku in mapped_skus:
-            if c_product_id == str(sku['product_id']):
-                sku['product_id'] = created_prod['id']
-                skus_to_create.append(sku)
+            # POST SKUs
+            skus_to_create = []
+            for created_prod in posted_response['data']:
+                c_product_id = str(created_prod['product_identifier'])
+                for sku in mapped_skus:
+                    if c_product_id == str(sku['product_id']):
+                        sku['product_id'] = created_prod['id']
+                        skus_to_create.append(sku)
 
-    #posted_skus = joor_api.post_skus(skus_to_create)
-    posted_message =  f'SKUs successfully posted for account {temp_account_id}'
-    #slack_bot.send_channel_message(posted_message)
+            #posted_skus = joor_api.post_skus(skus_to_create)
+            posted_message =  f'SKUs successfully posted for account {temp_account_id}'
+            #slack_bot.send_channel_message(posted_message)
 
-    # POST PRICES
-    skus_response_data = 'response_files/skus_posted_response.json'
-    skus_response = readFile(skus_response_data)
+            # POST PRICES
+            skus_response_data = 'response_files/skus_posted_response.json'
+            skus_response = readFile(skus_response_data)
 
-    prices_to_create = []
-    for sku_response in skus_response['data']:
-        for sku_price in mapped_prices:
-            if sku_price['sku_identifier'] == sku_response['sku_identifier']:
-                sku_price['id'] = sku_response['id']
+            prices_to_create = []
+            for sku_response in skus_response['data']:
+                for sku_price in mapped_prices:
+                    if sku_price['sku_identifier'] == sku_response['sku_identifier']:
+                        sku_price['id'] = sku_response['id']
 
-                prices_to_create.append(sku_price)
-    for sku_price in prices_to_create:
-        del sku_price['sku_identifier']
+                        prices_to_create.append(sku_price)
+            for sku_price in prices_to_create:
+                del sku_price['sku_identifier']
 
-    # POST IMAGES
-    #posted_images = joor_api.post_images(mapped_images)
+            # POST IMAGES
+            #posted_images = joor_api.post_images(mapped_images)
 
-    # POST INVENTORY
-    #posted_inventory = joor_api.post_images(mapped_inventory)
+            # POST INVENTORY
+            #posted_inventory = joor_api.post_images(mapped_inventory)
 
-    # POST COLLECTION
-    #posted_collections = joor_api.post_collections(mapped_collections, 'create')
-    
-    # POST Customers
+            # POST COLLECTION
+            #posted_collections = joor_api.post_collections(mapped_collections, 'create')
+            
+            # POST Customers
 
-    # POST Orders
+            # POST Orders
+        except Exception as e:
+            print(e)
 
-    ## Update
-    #print(json.dumps(products_to_update, indent=4),'\n')
+    if updated_parsed_products:
+        update_flag = 'UPDATE'            
 
-    # Updating Products
-    '''
-    returned_updated_products = joor_api.post_products(products_to_update, 'update')
-    if returned_updated_products:
-        updated_mapped_skus = mapped_skus(returned_updated_products, 'update')
-        returned_updated_skus = joor_api.post_skus(updated_mapped_skus, 'update')
+        try:
+            ## Update
+            #print(json.dumps(products_to_update, indent=4),'\n')
 
-        # Add sku id and price id
-        returned_updated_prices = joor_api.post_prices(returned_updated_skus, 'update')
-        
-        updated_images = joor_api.post_images(mapped_images, 'update')
-        updated_inventory = joor_api.post_inventory(inven_data)
+            get_updated_products = 'updated_files/get_updated_products.json'
+            returned_updated_products = readFile(get_updated_products)
 
-        # UPDATE Collections
+            # Updating Products
+            #returned_updated_products = joor_api.post_products(products_to_update, 'update')
+            if returned_updated_products:
+                updated_mapped_skus = product_mapper.mapSkus(updated_parsed_products, returned_updated_products, update_flag)
+                print(updated_mapped_skus)
+                #returned_updated_skus = joor_api.post_skus(updated_mapped_skus, 'update')
 
-    else:
-        pass
-    '''
+                # Add sku id and price id
+                #returned_updated_prices = joor_api.post_prices(returned_updated_skus, 'update')
+                
+                #updated_images = joor_api.post_images(mapped_images, 'update')
+                #updated_inventory = joor_api.post_inventory(inven_data)
+
+                # UPDATE Collections
+
+            else:
+                pass
+            
+        except Exception as e:
+            print(e)
 
 
 
