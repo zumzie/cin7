@@ -58,7 +58,6 @@ def main():
     raw_order_data = 'temp_data/cin_orders.json'
     inventory_data = 'temp_data/cin_inventory.json'
     joor_product_data = 'temp_data/joor_products.json'
-
     raw_j_order_data = 'temp_data/joor_orders.json'
 
     prod_data = readFile(raw_product_data)
@@ -131,7 +130,7 @@ def main():
             # Map Product Data
             mapped_products = product_mapper.mapProducts(create_flag)
             mapped_skus = product_mapper.mapSkus(created_parsed_products, [], create_flag)
-            mapped_prices = product_mapper.mapPrices()
+            mapped_prices = product_mapper.mapPrices(created_parsed_products, [], [], create_flag)
             mapped_images = product_mapper.mapImages()
             mapped_inventory = product_mapper.mapInventory(inven_data)
 
@@ -204,8 +203,8 @@ def main():
                 for sku_price in mapped_prices:
                     if sku_price['sku_identifier'] == sku_response['sku_identifier']:
                         sku_price['id'] = sku_response['id']
-
                         prices_to_create.append(sku_price)
+
             for sku_price in prices_to_create:
                 del sku_price['sku_identifier']
 
@@ -232,16 +231,27 @@ def main():
             #print(json.dumps(products_to_update, indent=4),'\n')
 
             get_updated_products = 'updated_files/get_updated_products.json'
+            sku_response = 'response_files/skus_posted_response.json'
+            get_prices = 'updated_files/get_prices.json'
+            get_pricetypes = 'updated_files/get_price_type.json'
+            
             returned_updated_products = readFile(get_updated_products)
+            skus_posted_response = readFile(sku_response)
+            get_sku_prices = readFile(get_prices)
+            get_price_types = readFile(get_pricetypes)
 
             # Updating Products
             #returned_updated_products = joor_api.post_products(products_to_update, 'update')
             if returned_updated_products:
                 updated_mapped_skus = product_mapper.mapSkus(updated_parsed_products, returned_updated_products, update_flag)
-                print(updated_mapped_skus)
-                #returned_updated_skus = joor_api.post_skus(updated_mapped_skus, 'update')
 
+                #returned_updated_skus = joor_api.post_skus(updated_mapped_skus, 'update')
+                updated_mapped_prices = product_mapper.mapPrices(skus_posted_response, get_sku_prices, get_price_types, update_flag)
+                print(updated_mapped_prices)
+
+                
                 # Add sku id and price id
+
                 #returned_updated_prices = joor_api.post_prices(returned_updated_skus, 'update')
                 
                 #updated_images = joor_api.post_images(mapped_images, 'update')

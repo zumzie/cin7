@@ -150,19 +150,39 @@ class MapProducts(Mapper):
             
             return mapped_skus
     
-    def mapPrices(self, flag):
+    def mapPrices(self, data, get_sku_prices, get_price_types, flag):
         mapped_prices = []
 
-        #Iterate through product data then variants for prices
-        for product in self.product_data:
-            for sku in product['productOptions']:
-                new_sku_price = {}
-                new_sku_price['sku_identifier'] = sku['code']
-                new_sku_price['price_type_id'] = ''
-                new_sku_price['wholesale_value'] = str(sku['wholesalePrice'])
-                new_sku_price['retail_price'] = str(sku['retailPrice'])
-                mapped_prices.append(new_sku_price)
+        if flag == 'CREATE':
+            #Iterate through product data then variants for prices
+            for product in self.product_data:
+                for sku in product['productOptions']:
+                    new_sku_price = {}
+                    new_sku_price['sku_identifier'] = sku['code']
+                    new_sku_price['price_type_id'] = ''
+                    new_sku_price['wholesale_value'] = str(sku['wholesalePrice'])
+                    new_sku_price['retail_price'] = str(sku['retailPrice'])
+                    mapped_prices.append(new_sku_price)
         
+        elif flag == 'UPDATE':
+            #Iterate through product data then variants for prices
+            for product in self.product_data:
+                for sku in product['productOptions']:
+                    new_sku_price = {}
+                    new_sku_price['sku_identifier'] = sku['code']
+                    new_sku_price['price_type_id'] = ''
+                    new_sku_price['wholesale_value'] = str(sku['wholesalePrice'])
+                    new_sku_price['retail_price'] = str(sku['retailPrice'])
+                    mapped_prices.append(new_sku_price)
+
+            for sku_price in mapped_prices:
+                for sku in data['data']:
+                    if sku_price['sku_identifier'] == sku['sku_identifier']:
+                        sku_price['sku_id'] = sku['id']
+                for g_sku_price in get_sku_prices[0]['data']:
+                    if g_sku_price['sku_id'] == sku_price['sku_id']:
+                        sku_price['id'] = g_sku_price['id']
+                        del sku_price['price_type_id']
         return mapped_prices
 
 
@@ -243,6 +263,7 @@ class MapProducts(Mapper):
     
 
 class MapOrders(Mapper):
+
     def __init__():
         pass
 

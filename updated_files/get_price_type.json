@@ -1,0 +1,17 @@
+{
+  "data": [
+    {
+      "id": "22",
+      "name": "US Dollar",
+      "currency_code": "USD",
+      "retail_currency_code": "USD"
+    }
+  ],
+  "errors": [
+    {
+      "status": "NOT_FOUND",
+      "message": "Value not found",
+      "details": {}
+    }
+  ]
+}
