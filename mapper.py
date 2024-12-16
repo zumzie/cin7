@@ -227,39 +227,70 @@ class MapProducts(Mapper):
 
         return [inventory]
     
-    def mapCollections(self):
+    def mapSeasons(self):
+        pass
+    
+    def mapCollections(self, get_collections_data, sku_data, flag):
         temp_to_create =  []
         temp_to_update = []
 
         collections_to_create =  []
         collections_to_update = []
 
-        collections = {c_product['projectName'] for c_product in self.product_data}
+        ## Remove this after: CHECK TO SEE IF FLAG HAS BEEN CHANGED TO COLLECTIONS TO CREATE
+        if flag == 'CREATE':
+            collections_in_data = {c_product['projectName'] for c_product in self.create_prod_data}
 
-        for c_product in self.product_data:
-            collection_name = c_product['projectName']
-            if collection_name in collections:
-                c_coll_obj = {}
-                # Product exists in Joor, so we update it
-                temp_to_update.append(c_product)
-            else:
-                u_coll_obj = {}
-                
-                # Product does not exist in Joor, so we create it
-                temp_to_create.append(c_product)
+            for collection in collections_in_data:
+                collections_structure = {
+                    'name': collection,
+                    'external_id': collection,
+                    'items': []
+                }
+                for prod in self.create_prod_data:
+                    if collection == prod['projectName']:
+                        prod_coll_struct = {
+                            'product_id': str(prod['id']),
+                            'skus': []
+                        }
+                        collections_structure['items'].append(prod_coll_struct)
+                        collections_structure['id'] = ''
+                        collections_structure['external_id'] = ''
+                        print('coll_struct', collections_structure)
 
-        print(json.dumps(collections_to_create,indent=4), '\n',json.dumps(collections_to_update,indent=4),'\n')
-        
+            '''
+            for collections_in in collections_in_data:
+                for sku in self.create_prod_data:
+                    print(sku)
+            '''
+        elif flag == 'UPDATE':
+            collections = {c_product['projectName'] for c_product in self.product_data}
 
-        for c_product in collections_to_create:
-            collections_to_create
-            pass
+            for c_product in self.product_data:
+                collection_name = c_product['projectName']
+                if collection_name in collections:
+                    c_coll_obj = {}
+                    # Product exists in Joor, so we update it
+                    temp_to_update.append(c_product)
+                else:
+                    u_coll_obj = {}
+                    
+                    # Product does not exist in Joor, so we create it
+                    temp_to_create.append(c_product)
 
-        for c_product in collections_to_update:
+            #print(json.dumps(collections_to_create,indent=4), '\n',json.dumps(collections_to_update,indent=4),'\n')
             
-            pass
-        
-        return collections_to_create, collections_to_update
+
+            for c_product in collections_to_create:
+                collections_to_create
+                pass
+
+            for c_product in collections_to_update:
+                
+                pass
+            
+            return collections_to_create
+
     
 
 class MapOrders(Mapper):

@@ -59,6 +59,8 @@ def main():
     inventory_data = 'temp_data/cin_inventory.json'
     joor_product_data = 'temp_data/joor_products.json'
     raw_j_order_data = 'temp_data/joor_orders.json'
+    get_seasons_data = 'get_joor_api/get_seasons.json'
+    get_collections_data = 'get_joor_api/get_collections.json'
 
     prod_data = readFile(raw_product_data)
     customer_data = readFile(raw_customer_data)
@@ -66,6 +68,8 @@ def main():
     inven_data = readFile(inventory_data)
     joor_order_data = readFile(raw_j_order_data)
     joor_prod_data = readFile(joor_product_data)
+    get_seasons = readFile(get_seasons_data)
+    get_collections = readFile(get_collections_data)
 
     products_to_create = []
     products_to_update = []
@@ -134,10 +138,22 @@ def main():
             mapped_images = product_mapper.mapImages()
             mapped_inventory = product_mapper.mapInventory(inven_data)
 
+            '''
+            NEED TO FINISH
+            '''
+            mapped_seasons = product_mapper.mapSeasons()
+
             # Map Collection Data
             #temp mapper function
             #p_mapper = MapProducts(prod_data)
-            #mapped_collections_to_u, mapped_collections_to_c = p_mapper.mapCollections()
+
+            #get_seasons = joor_api.get_seasons()
+            #print(get_seasons)
+
+            # new seasons to create?
+            mapped_collections = product_mapper.mapCollections(get_collections, mapped_skus, create_flag)
+            print(mapped_collections)
+
 
 
 
