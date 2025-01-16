@@ -256,40 +256,39 @@ class MapProducts(Mapper):
                         collections_structure['items'].append(prod_coll_struct)
                         collections_structure['id'] = ''
                         collections_structure['external_id'] = ''
+                        for sku in prod['productOptions']:
+                            sku_obj = {
+                                'id': sku['code']
+                            }
+                            prod_coll_struct['skus'].append(sku_obj)
+            return prod_coll_struct
+
+        elif flag == 'UPDATE':
+            collections_in_data = {c_product['projectName'] for c_product in self.update_prod_data}
+
+            for collection in collections_in_data:
+                collections_structure = {
+                    'name': collection,
+                    'external_id': collection,
+                    'items': []
+                }
+                for prod in self.update_prod_data:
+                    if collection == prod['projectName']:
+                        prod_coll_struct = {
+                            'product_id': str(prod['id']),
+                            'skus': []
+                        }
+                        collections_structure['items'].append(prod_coll_struct)
+                        collections_structure['id'] = ''
+                        collections_structure['external_id'] = ''
                         print('coll_struct', collections_structure)
                         for sku in prod['productOptions']:
                             sku_obj = {
                                 'id': sku['code']
                             }
                             prod_coll_struct['skus'].append(sku_obj)
-
-        elif flag == 'UPDATE':
-            collections = {c_product['projectName'] for c_product in self.product_data}
-
-            for c_product in self.product_data:
-                collection_name = c_product['projectName']
-                if collection_name in collections:
-                    c_coll_obj = {}
-                    # Product exists in Joor, so we update it
-                    temp_to_update.append(c_product)
-                else:
-                    u_coll_obj = {}
-                    
-                    # Product does not exist in Joor, so we create it
-                    temp_to_create.append(c_product)
-
-            #print(json.dumps(collections_to_create,indent=4), '\n',json.dumps(collections_to_update,indent=4),'\n')
             
-
-            for c_product in collections_to_create:
-                collections_to_create
-                pass
-
-            for c_product in collections_to_update:
-                
-                pass
-            
-            return collections_to_create
+            return prod_coll_struct
 
     
 
