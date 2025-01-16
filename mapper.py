@@ -257,12 +257,12 @@ class MapProducts(Mapper):
                         collections_structure['id'] = ''
                         collections_structure['external_id'] = ''
                         print('coll_struct', collections_structure)
+                        for sku in prod['productOptions']:
+                            sku_obj = {
+                                'id': sku['code']
+                            }
+                            prod_coll_struct['skus'].append(sku_obj)
 
-            '''
-            for collections_in in collections_in_data:
-                for sku in self.create_prod_data:
-                    print(sku)
-            '''
         elif flag == 'UPDATE':
             collections = {c_product['projectName'] for c_product in self.product_data}
 
