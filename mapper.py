@@ -1,8 +1,5 @@
 import json
 
-
-
-
 ## CLEAN UP MAPPER, SHOULD JUST BE INITIALIZING OF DATA
 class Mapper():
     def __init__(self, prod_data, customer_data, order_data, joor_order_data):
@@ -244,7 +241,7 @@ class MapProducts(Mapper):
             for collection in collections_in_data:
                 collections_structure = {
                     'name': collection,
-                    'external_id': collection,
+                    'season_id': '',
                     'items': []
                 }
                 for prod in self.create_prod_data:
@@ -254,14 +251,13 @@ class MapProducts(Mapper):
                             'skus': []
                         }
                         collections_structure['items'].append(prod_coll_struct)
-                        collections_structure['id'] = ''
-                        collections_structure['external_id'] = ''
+                        collections_structure['season_id'] = ''
                         for sku in prod['productOptions']:
                             sku_obj = {
                                 'id': sku['code']
                             }
                             prod_coll_struct['skus'].append(sku_obj)
-            return prod_coll_struct
+            return [collections_structure]
 
         elif flag == 'UPDATE':
             collections_in_data = {c_product['projectName'] for c_product in self.update_prod_data}
@@ -269,7 +265,7 @@ class MapProducts(Mapper):
             for collection in collections_in_data:
                 collections_structure = {
                     'name': collection,
-                    'external_id': collection,
+                    'season_id': '',
                     'items': []
                 }
                 for prod in self.update_prod_data:
@@ -279,16 +275,14 @@ class MapProducts(Mapper):
                             'skus': []
                         }
                         collections_structure['items'].append(prod_coll_struct)
-                        collections_structure['id'] = ''
-                        collections_structure['external_id'] = ''
+                        collections_structure['season_id'] = ''
                         print('coll_struct', collections_structure)
                         for sku in prod['productOptions']:
                             sku_obj = {
                                 'id': sku['code']
                             }
                             prod_coll_struct['skus'].append(sku_obj)
-            
-            return prod_coll_struct
+            return [collections_structure]
 
     
 
