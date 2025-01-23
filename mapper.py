@@ -7,49 +7,7 @@ class Mapper():
         self.customer_data = customer_data
         self.order_data = order_data
         self.joor_order_data = joor_order_data
-    
-    def mapImages(self):
-        asset_data = []
-        for product in self.product_data:
-            #print(json.dumps(product,indent=4),'\n')
-            count = 1
-            for count, img in enumerate(product['images']):
-                product_asset = {
-                    'product': {
-                        'id': product['id'],  # Replace with ID pulled from API call
-                    },
-                        'asset': {
-                            'type': 'image',
-                            'source_url': img['link'],
-                    },
-                        'display_order': count + 1 
-                    }
-                # Append the new dictionary to the asset_data list
-                asset_data.append(product_asset)
 
-        ## Map Variant Assets
-        ## TODO
-        return asset_data
-
-    def mapInventory(self, inv_data):
-        inventory = {"inventory_items": []}
-        for prod_inv in inv_data:
-            inventory_data = {
-                        "warehouse":  prod_inv["branchName"],
-                        "inventory_date":  "IMMEDIATE",
-                        "style_number":  prod_inv["styleCode"],
-                        "style_identifier":  prod_inv["code"],
-                        "color_code":  prod_inv["option1"],
-                        "size":  prod_inv["option2"],
-                        "inventory":  prod_inv["available"],
-                    }
-            
-            inventory["inventory_items"].append(inventory_data)
-
-        return [inventory]
-    
-    def mapCollections(self):
-        pass
 
 ## ADD IN REST OF PRODUCT MAPPER
 class MapProducts(Mapper):
