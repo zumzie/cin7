@@ -8,7 +8,6 @@ class Mapper():
         self.order_data = order_data
         self.joor_order_data = joor_order_data
 
-
 ## ADD IN REST OF PRODUCT MAPPER
 class MapProducts(Mapper):
     def __init__(self, raw_prod_data, products_to_create, products_to_update):
@@ -140,20 +139,22 @@ class MapProducts(Mapper):
                         del sku_price['price_type_id']
         return mapped_prices
 
-
-    
     def mapImages(self):
         asset_data = []
         for product in self.product_data:
             #print(json.dumps(product,indent=4),'\n')
             count = 1
             for count, img in enumerate(product['images']):
+                if img['link'] and ('.jpg' in img['link'] or '.png' in img['link']):
+                    extension = '.jpg' if '.jpg' in img['link'] else 'png'
+                    filename = img['link'].split(extension)[0].split('/')[-1]
                 product_asset = {
                     'product': {
                         'id': product['id'],  # Replace with ID pulled from API call
                     },
                         'asset': {
                             'type': 'image',
+                            'filename': filename,
                             'source_url': img['link'],
                     },
                         'display_order': count + 1 
@@ -163,6 +164,17 @@ class MapProducts(Mapper):
 
         ## Map Variant Assets
         ## TODO
+        '''
+        # Add map variants to parameters with a flag
+        # Init a variable similar to extension to create one set of loops/if statements
+        # prod/variant = prod if 'flag' else variant
+            def mapImages(self, flag):
+                if flag map variants
+                    for prod in prod_data
+                        for var in prod['productOptions']
+                            for count, img in enum(var['img'])
+                                repeat regular map images
+        '''
         return asset_data
 
     def mapInventory(self, inv_data):
