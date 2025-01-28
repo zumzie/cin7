@@ -1,5 +1,8 @@
 import json
 
+
+
+
 ## CLEAN UP MAPPER, SHOULD JUST BE INITIALIZING OF DATA
 class Mapper():
     def __init__(self, prod_data, customer_data, order_data, joor_order_data):
@@ -7,6 +10,7 @@ class Mapper():
         self.customer_data = customer_data
         self.order_data = order_data
         self.joor_order_data = joor_order_data
+
 
 ## ADD IN REST OF PRODUCT MAPPER
 class MapProducts(Mapper):
@@ -163,19 +167,37 @@ class MapProducts(Mapper):
                 asset_data.append(product_asset)
 
         ## Map Variant Assets
-        ## TODO
-        '''
-        # Add map variants to parameters with a flag
-        # Init a variable similar to extension to create one set of loops/if statements
-        # prod/variant = prod if 'flag' else variant
-            def mapImages(self, flag):
-                if flag map variants
-                    for prod in prod_data
-                        for var in prod['productOptions']
-                            for count, img in enum(var['img'])
-                                repeat regular map images
-        '''
-        return asset_data
+        variant_asset_data = []
+        for product in self.product_data:
+            for variant in product['productOptions']:
+                count = 1
+                if variant['image']:
+                    img = variant['image']
+                    if img['link'] and ('.jpg' in img['link'] or '.png' in img['link']):
+                        print('test')
+                        extension = '.jpg' if '.jpg' in img['link'] else 'png'
+                        filename = img['link'].split(extension)[0].split('/')[-1]
+                        variant_asset = {
+                            'product': {
+                                'id': product['id'],  # Replace with ID pulled from API call
+                            },
+                            'sku_trait_value': {
+                                'trait': {
+                                    'name': 'color'
+                                },
+                                'value' : {
+                                    'external_id': variant['code']
+                                }
+                            },
+                                'asset': {
+                                    'type': 'image',
+                                    'filename': filename,
+                                    'source_url': img['link'],
+                            },
+                            }
+                        # Append the new dictionary to the asset_data list
+                        variant_asset_data.append(variant_asset)
+        return asset_data, variant_asset_data
 
     def mapInventory(self, inv_data):
         inventory = {"inventory_items": []}
